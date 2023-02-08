@@ -65,5 +65,3 @@ Inicie os testes
 <br />
 
 Veja meu Linkedin: [Erick Nascimento](https://www.linkedin.com/in/erick-nascimento-1926a8231/)
-
-# linkedin-frontend
