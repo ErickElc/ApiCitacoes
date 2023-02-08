@@ -1,0 +1,912 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "REST",
+    "description": "Documentation from REST API Patrimonio",
+    "version": "1.0.0"
+  },
+  "schemes": ["http"],
+  "basePath": "/",
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/users/users-data": {
+      "summary": "Pegar dados do usuário pelo email",
+      "description": "Rota que busca dados do usuário",
+      "get": {
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "6af39cb8-2b81-46b0-a513-8f3d60fd409f"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Erick Lucas"
+                    },
+                    "age": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 21
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "lucas0909@gmail.com"
+                    },
+                    "admin": {
+                      "type": "integer",
+                      "format": "bool",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Você não tem permissão para acessar esses dados!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível encontrar o usuário!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/register": {
+      "summary": "Registrar usuário",
+      "description": "Rota para cadastrar usuário",
+      "post": {
+        "tags": ["Usuários"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Guilherme Nascimento",
+                  "age": 31,
+                  "email": "gui3131@gmail.com",
+                  "password": "senha123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Usuário cadastrado com sucesso!"
+                    },
+                    "postId": {
+                      "type": "string",
+                      "example": "6af39cb8-2b81-46b0-a513-8f3d60fd409f"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "E-mail already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível cadastrar esse e-mail, pois ele já foi cadastrado!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "summary": "login do usuário",
+      "description": "Rota para usuário fazer login",
+      "post": {
+        "tags": ["Usuários"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "gui3131@gmail.com",
+                  "password": "senha123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2UyZGJiYTUzZmEzNGQ0NDg5YWYyNmYiLCJpYXQiOjE2NzU4NjM2MTUsImV4cCI6MTY3NTkwNjgxNX0.tsGSQZqHWrdEMLDfz9DwVQxVjzQdvnKMmeKO6FkxmeQ"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email or password incorrect",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Email or password incorrect"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/edit-account": {
+      "summary": "Editar dados do usuário",
+      "description": "Rota para editar dados do usuário",
+      "put": {
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Guilherme Nascimento",
+                  "age": 31,
+                  "email": "gui3131@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Dados do usuário editados com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível encontrar o usuário!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Você não tem permissão para editar esses dados!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/remove": {
+      "summary": "Remover usuários",
+      "description": "Rota para excluir conta",
+      "delete": {
+        "tags": ["Usuários"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Usuário deletado com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível deletar do usuário!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Token inválido"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível executar está função!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/api/posts/all": {
+      "summary": "Pegar todos as citações",
+      "description": "Rota que busca todas as citações",
+      "get": {
+        "tags": ["Posts"],
+
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "example": "6af39cb8-2b81-46b0-a513-8f3d60fd409f"
+                      },
+                      "title": {
+                        "type": "string",
+                        "example": "'Um programador bom, é aquele que programa'"
+                      },
+
+                      "autor": {
+                        "type": "object",
+                        "example": {
+                          "name": "Erick Lucas",
+                          "age": "21",
+                          "email": "lucas0909@gmail.com",
+                          "admin": false
+                        }
+                      },
+                      "date": {
+                        "type": "string",
+                        "example": "2023-02-08T17:59:56.543Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+
+          "404": {
+            "description": "post does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível encontrar os posts!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro no server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível listar os posts!"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "houve um erro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{id}": {
+      "summary": "Pegar todos as citações por id",
+      "description": "Rota que busca citações por id",
+      "get": {
+        "tags": ["Posts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "6af39cb8-2b81-46b0-a513-8f3d60fd409f"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "'Um programador bom, é aquele que programa'"
+                    },
+
+                    "autor": {
+                      "type": "object",
+                      "example": {
+                        "name": "Erick Lucas",
+                        "age": "21",
+                        "email": "lucas0909@gmail.com",
+                        "admin": false
+                      }
+                    },
+                    "date": {
+                      "type": "string",
+                      "example": "2023-02-08T17:59:56.543Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+
+          "404": {
+            "description": "post does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível encontrar os posts!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro no server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível listar os posts!"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "houve um erro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/new": {
+      "summary": "Criar citação",
+      "description": "Rota para cadastrar citação",
+      "post": {
+        "tags": ["Posts"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "autor": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "title": "Programador que é bom, programa muito",
+                  "autor": "63e3e33024bbae9fd73457dc"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Post criado com sucesso"
+                    },
+                    "postId": {
+                      "type": "string",
+                      "example": "63e3e33024bbae9fd73457dc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "post does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível encontrar o usuário"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível criar esse documento"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro no server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível criar o post"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "houve um erro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/edit/{id}": {
+      "summary": "Criar citação",
+      "description": "Rota para cadastrar citação",
+      "put": {
+        "tags": ["Posts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "title": "Programador que é bom, programa muito"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Post editado com sucesso"
+                    },
+                    "postId": {
+                      "type": "string",
+                      "example": "63e3e33024bbae9fd73457dc"
+                    }
+                  }
+                }
+              }
+            }
+          },
+
+          "403": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível editar esse post"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro no server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível editar esse post"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "houve um erro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/remove/{id}": {
+      "summary": "Criar citação",
+      "description": "Rota para cadastrar citação",
+      "delete": {
+        "tags": ["Posts"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Post deletado com sucesso!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "post does not exist",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Post não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access Denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível deletar esse documento"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro no server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Não foi possível deletar o post"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "houve um erro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
