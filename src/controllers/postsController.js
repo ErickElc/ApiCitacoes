@@ -10,6 +10,7 @@ class PostController {
     try {
       const postsAll = await postModel
         .find()
+        .sort({ createdAt: -1 })
         .populate({ path: "autor", select: "name _id email admin" })
         .exec();
       if (!postsAll)
